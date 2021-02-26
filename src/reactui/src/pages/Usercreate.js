@@ -4,7 +4,8 @@ import React from 'react';
 import Input from "../components/Input";
 import {kayit} from '../api/apiCalls';
 import { withTranslation } from 'react-i18next';
-
+import  Buttonproges from "../components/buttonproges";
+import {withApiProgess} from "../shared/ApiProges";
 
 class Usercreate extends React.Component{
      state={
@@ -12,7 +13,6 @@ class Usercreate extends React.Component{
         nickName:null, 
         password:null,
         passwordRepeat:null,
-        pendingApiCall:false,
         errors:{}
     };
     onChange = event=>{
@@ -47,7 +47,7 @@ class Usercreate extends React.Component{
             password:this.state.password
         }
 
-        this.setState({pendingApiCall:true})
+
         try{
             await  kayit(body);
         }
@@ -59,14 +59,14 @@ class Usercreate extends React.Component{
             console.log(this.state.errors);
         }
     
-     this.setState({pendingApiCall:false});
+
     } 
    
 
     render(){
-        var {pendingApiCall,errors} = this.state;
-        var {userName,nickName,password,passwordRepeat} = errors;
-        var {t} = this.props;
+        const {errors} = this.state;
+        const {userName,nickName,password,passwordRepeat} = errors;
+        const {t,pendingApiCall} = this.props;
         return (
             <div className="container">
                 <form>
@@ -76,10 +76,12 @@ class Usercreate extends React.Component{
                 <Input name ="password" label={t("Password")} type="password" error={password} onChange={this.onChange}/>
                 <Input name="passwordRepeat" label={t("Password Repeat")}  type="password" error={passwordRepeat}  onChange={this.onChange}/>
                 <div className="text-center">
-                <button className="btn btn-primary" onClick={this.onClickKayit}
-                disabled={pendingApiCall ||passwordRepeat!=undefined}>
-               {pendingApiCall&& <span className="spinner-border spinner-border-sm"></span>}{t("Register")}
-                </button>
+                <Buttonproges  onClick={this.onClickKayit}
+                disabled={pendingApiCall ||passwordRepeat!=undefined}
+                pendingApiCall={pendingApiCall}
+                text={t("Register")}
+                />
+
                 </div>
                
             </form>
@@ -91,4 +93,5 @@ class Usercreate extends React.Component{
     }
 }
 const userCreateWithTranslate = withTranslation()(Usercreate);
-export default  withTranslation()(Usercreate);
+const UserCreateProgess = withApiProgess(userCreateWithTranslate,"/kayit");
+export default  withTranslation()(UserCreateProgess);
