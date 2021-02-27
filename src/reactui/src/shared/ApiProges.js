@@ -4,16 +4,16 @@ import axios from "axios";
 
 export function withApiProgess(WrappedComponenet,path) {
     return class ApiProges extends Component {
-
+        static displayName="Apiprogessler("+WrappedComponenet.name+")";
         state = {
             pandingApiCall: false
         };
 
         componentDidMount() {axios.interceptors.request.use((request => {
-                this.updatePanginga(request.url, true);
+            this.updatePanginga(request.url, true);
 
-                return request;
-            }));
+            return request;
+        }));
             axios.interceptors.response.use(response => {
 
                 this.updatePanginga(response.config.url, false);
@@ -35,8 +35,8 @@ export function withApiProgess(WrappedComponenet,path) {
 
 
         render() {
-            const {pendingApiCall}=this.state;
-            return <WrappedComponenet pendingApiCall={pendingApiCall}/>;
+            const {pandingApiCall}=this.state;
+            return <WrappedComponenet pandingApiCall={pandingApiCall} {... this.props}/>;
 
 
         }

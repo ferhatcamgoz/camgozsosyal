@@ -9,11 +9,11 @@ import  Buttonproges from "../components/buttonproges";
 
 class UserLogin extends React.Component{
     state={
-        userName:null,   
+        userName:null,
         password:null,
         errors:null
- 
-};
+
+    };
     componentDidMount() {
         axios.interceptors.request.use( request=>{
             this.setState({pendingApiCall:true});
@@ -29,58 +29,58 @@ class UserLogin extends React.Component{
     }
 
     onChange = async event=>{
-    var {value, name}= event.target;   
-    this.setState({
-        [name]:value,
-        errors:null
-    });
-}
-onclick = async event =>{
-    event.preventDefault();
-
-    this.setState({
-        errors:null
-    })
-
-    const creds ={
-        username:this.state.userName,
-        password:this.state.password
+        var {value, name}= event.target;
+        this.setState({
+            [name]:value,
+            errors:null
+        });
     }
+    onclick = async event =>{
+        event.preventDefault();
+
+        this.setState({
+            errors:null
+        })
+
+        const creds ={
+            username:this.state.userName,
+            password:this.state.password
+        }
         try {
             await login(creds)
         }
-       catch (erroe){
+        catch (erroe){
             this.setState({
                 errors:erroe.response.data.message
             })
-       }
+        }
 
-}
+    }
     render(){
-        const {pendingApiCall,t} = this.props;
+        const {pandingApiCall,t} = this.props;
         const {userName, password, errors} = this.state;
         const buttonEnabled = userName && password;
         return(
             <div className="container">
-            <form>
-           <h1 className="text-center">{t("Logins")}</h1>
-           <Input name ="userName" label= {t("Username")} type="text"  onChange={this.onChange} />          
-           <Input name ="password" label= {t("Password")}  type="password"  onChange={ this.onChange} />
-           {errors && <div className="alert alert-danger">{errors}</div>}
-           <div className="text-center">
-           <Buttonproges
-           onClick={this.onclick}
-           disabled={!buttonEnabled|| pendingApiCall}
-           pendingApiCall={pendingApiCall}
-           text={t("Login")}
-           />
+                <form>
+                    <h1 className="text-center">{t("Logins")}</h1>
+                    <Input name ="userName" label= {t("Username")} type="text"  onChange={this.onChange} />
+                    <Input name ="password" label= {t("Password")}  type="password"  onChange={ this.onChange} />
+                    {errors && <div className="alert alert-danger">{errors}</div>}
+                    <div className="text-center">
+                        <Buttonproges
+                            onClick={this.onclick}
+                            disabled={!buttonEnabled|| pandingApiCall}
+                            pendingApiCall={pandingApiCall}
+                            text={t("Login")}
+                        />
 
 
 
-           </div>
-          
-        </form>
-        </div>
+                    </div>
+
+                </form>
+            </div>
         )
     }
 }

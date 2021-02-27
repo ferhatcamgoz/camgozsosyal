@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.sosyalmedya.sosyalmedya.exception.Apiexception;
 import com.sosyalmedya.sosyalmedya.user.User;
 import com.sosyalmedya.sosyalmedya.user.UserRepository;
+import com.sosyalmedya.sosyalmedya.util.CurrnetUser;
 import com.sosyalmedya.sosyalmedya.util.View;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,8 +26,8 @@ public class AuthController {
         PasswordEncoder passwordEncoder= new BCryptPasswordEncoder();
         @PostMapping("/auth")
         @JsonView(View.Base.class)
-        ResponseEntity<?> handleAuth(Authentication authentication){
-            User user = (User) authentication.getPrincipal();
+        ResponseEntity<?> handleAuth(@CurrnetUser User user){
+
 
 
             return ResponseEntity.ok(user);

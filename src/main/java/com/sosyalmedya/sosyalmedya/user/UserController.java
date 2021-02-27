@@ -30,7 +30,7 @@ public class UserController {
         return new GenericResponse("Kayıt Başarılı");
 
     }
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+ /*   @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Apiexception handleValidetionException(MethodArgumentNotValidException methodArgumentNotValidException){
         Apiexception apiexception = new Apiexception(400,"Kayıt Hatası","/kayit");
@@ -40,5 +40,5 @@ public class UserController {
         }
         apiexception.setValidateexception(hatalar);
         return  apiexception;
-    }
+    }*/
 }

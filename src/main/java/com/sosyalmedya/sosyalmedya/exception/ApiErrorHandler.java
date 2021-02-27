@@ -20,7 +20,7 @@ import java.util.Map;
         @RequestMapping("/error")
         Apiexception handleError(WebRequest webRequest){
             Map<String, Object> att=   this.errorAttributes.getErrorAttributes(webRequest, ErrorAttributeOptions.of(ErrorAttributeOptions.Include.MESSAGE, ErrorAttributeOptions.Include.BINDING_ERRORS));
-            String message= (String) att.get("message"+" saddfgdfgfgd");
+            String message= (String) att.get("message");
             String path = (String) att.get("path");
             int status = (Integer) att.get("status");
             Apiexception apiexception= new Apiexception(status,message,path);

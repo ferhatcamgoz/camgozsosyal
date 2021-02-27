@@ -3,6 +3,7 @@ import  React from 'react';
 import Usercreate from "../pages/Usercreate";
 import Language from "../components/Language";
 import UserLogin from "../pages/UserLogin";
+import UserPage from "../pages/UserPage";
 
 
 
@@ -10,12 +11,7 @@ function App() {
   
   return (
       <div className="row">
-        <div className="col">
-            <Usercreate />
-        </div>
-        <div className="col">
-            <UserLogin />
-        </div>
+        <UserPage></UserPage>
 
 
         <Language/>
