@@ -10,11 +10,11 @@ export function withApiProgess(WrappedComponenet,path) {
         };
 
         componentDidMount() {axios.interceptors.request.use((request => {
-            this.updatePanginga(request.url, true);
+           this.requestInterceptor= this.updatePanginga(request.url, true);
 
             return request;
         }));
-            axios.interceptors.response.use(response => {
+            this.responseInterceptor= axios.interceptors.response.use(response => {
 
                 this.updatePanginga(response.config.url, false);
 
@@ -24,6 +24,10 @@ export function withApiProgess(WrappedComponenet,path) {
 
                 throw  error;
             });
+        }
+        componentWillUnmount() {
+            axios.interceptors.request.eject(this.requestInterceptor);
+            axios.interceptors.response.eject(this.responseInterceptor);
         }
 
 

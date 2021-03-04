@@ -17,7 +17,8 @@ import { initReactI18next } from 'react-i18next';
                 'Register':'Register',
                 "Aynı şifreyi yaz":"Repeat Password Please",
                 "Login":"Login",
-                "Logins":"Login Page"
+                "Logins":"Login Page",
+                Logout:"Logout"
             }
         },
         tr:{
@@ -30,7 +31,8 @@ import { initReactI18next } from 'react-i18next';
                 'Register':'Kayıt Ol',
                 "Aynı şifreyi yaz":"Aynı şifreyi yaz",
                 "Login":"Giriş Yap",
-                "Logins":"Giriş Sayfası"
+                "Logins":"Giriş Sayfası",
+                Logout:"Çıkış Yap"
             }
         }
     },

@@ -1,9 +1,11 @@
 import React from 'react';
+import ProfilCard from "./ProfilCard";
+
 
 const UserPage = () => {
     return (
         <div className="container">
-        Merhaba Kullanıcı
+        <ProfilCard></ProfilCard>
         </div>
     );
 };

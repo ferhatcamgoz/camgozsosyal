@@ -3,11 +3,14 @@ import React from 'react';
 import Input from "../components/Input";
 import { withTranslation } from 'react-i18next';
 import { withApiProgess } from '../shared/ApiProges';
-
+import {Auth} from "../shared/AuthContext";
 import {login} from "../api/apiCalls";
 import  Buttonproges from "../components/buttonproges";
+import {connect} from "react-redux";
+import {loginSuccess} from "../redux/AuthActions";
 
 class UserLogin extends React.Component{
+    //static contextType=Auth;
     state={
         userName:null,
         password:null,
@@ -38,6 +41,7 @@ class UserLogin extends React.Component{
     onclick = async event =>{
         event.preventDefault();
 
+
         this.setState({
             errors:null
         })
@@ -46,12 +50,22 @@ class UserLogin extends React.Component{
             username:this.state.userName,
             password:this.state.password
         }
+        const {push} = this.props.history;
         try {
-            await login(creds)
+           const response= await login(creds);
+            push("/");
+            const authData ={
+                ... response.data,
+                password:this.state.password
+            }
+
+
+           this.props.loginSuccess(authData);
+
         }
-        catch (erroe){
+        catch (errors){
             this.setState({
-                errors:erroe.response.data.message
+                errors:errors.response.data.message
             })
         }
 
@@ -84,6 +98,9 @@ class UserLogin extends React.Component{
         )
     }
 }
+
+
 const UserLoginTrans =withTranslation()(UserLogin);
 const UserLoginProgess = withApiProgess(UserLoginTrans,"/auth");
-export default UserLoginProgess ;
+
+export default connect(null,{loginSuccess})(UserLoginProgess);
