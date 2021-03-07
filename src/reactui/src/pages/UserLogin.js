@@ -7,7 +7,7 @@ import {Auth} from "../shared/AuthContext";
 import {login} from "../api/apiCalls";
 import  Buttonproges from "../components/buttonproges";
 import {connect} from "react-redux";
-import {loginSuccess} from "../redux/AuthActions";
+import {loginHandler, loginSuccess} from "../redux/AuthActions";
 
 class UserLogin extends React.Component{
     //static contextType=Auth;
@@ -50,18 +50,11 @@ class UserLogin extends React.Component{
             username:this.state.userName,
             password:this.state.password
         }
-        const {push} = this.props.history;
+        const {history , dispatch} = this.props;
+        const {push} =history;
         try {
-           const response= await login(creds);
+          await  dispatch(loginHandler(creds));
             push("/");
-            const authData ={
-                ... response.data,
-                password:this.state.password
-            }
-
-
-           this.props.loginSuccess(authData);
-
         }
         catch (errors){
             this.setState({
@@ -103,4 +96,4 @@ class UserLogin extends React.Component{
 const UserLoginTrans =withTranslation()(UserLogin);
 const UserLoginProgess = withApiProgess(UserLoginTrans,"/auth");
 
-export default connect(null,{loginSuccess})(UserLoginProgess);
+export default connect()(UserLoginProgess);

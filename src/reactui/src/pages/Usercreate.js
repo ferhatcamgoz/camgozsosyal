@@ -6,7 +6,8 @@ import {kayit} from '../api/apiCalls';
 import { withTranslation } from 'react-i18next';
 import  Buttonproges from "../components/buttonproges";
 import {withApiProgess} from "../shared/ApiProges";
-
+import {singupHangler} from "../redux/AuthActions";
+import {connect} from "react-redux";
 class Usercreate extends React.Component{
     state={
         userName:null,
@@ -41,6 +42,8 @@ class Usercreate extends React.Component{
     }
     onClickKayit = async event => {
         event.preventDefault();
+        const {history , dispatch} = this.props;
+        const {push} =history;
         const body={
             userName:this.state.userName,
             nickName:this.state.nickName,
@@ -49,7 +52,8 @@ class Usercreate extends React.Component{
 
 
         try{
-            await  kayit(body);
+           await dispatch(singupHangler(body))
+                push("/");
         }
         catch (err){
             if(err.response.data.validateexception){
@@ -95,4 +99,4 @@ class Usercreate extends React.Component{
 const UserCreateProgess = withApiProgess(Usercreate,"/kayit");
 const userCreateWithTranslate = withTranslation()(UserCreateProgess);
 
-export default  withTranslation()(userCreateWithTranslate);
+export default  connect()(withTranslation()(userCreateWithTranslate));
