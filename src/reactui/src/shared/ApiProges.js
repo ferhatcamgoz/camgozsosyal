@@ -1,48 +1,42 @@
-import React, {Component} from 'react';
+import React, {Component,useState,useEffect} from 'react';
 import axios from "axios";
-
-
-export function withApiProgess(WrappedComponenet,path) {
-    return class ApiProges extends Component {
-        static displayName="Apiprogessler("+WrappedComponenet.name+")";
-        state = {
-            pandingApiCall: false
-        };
-
-        componentDidMount() {axios.interceptors.request.use((request => {
-           this.requestInterceptor= this.updatePanginga(request.url, true);
-
-            return request;
-        }));
-            this.responseInterceptor= axios.interceptors.response.use(response => {
-
-                this.updatePanginga(response.config.url, false);
-
-                return response;
-            }, error => {
-                this.updatePanginga(error.config.url, false);
-
-                throw  error;
-            });
-        }
-        componentWillUnmount() {
-            axios.interceptors.request.eject(this.requestInterceptor);
-            axios.interceptors.response.eject(this.responseInterceptor);
-        }
-
-
-        updatePanginga(url, progess) {
-            if (url == path) {
-                this.setState({pandingApiCall: progess});
+export const useAoiProgess =(apiPath)=>{
+   const [pandingApiCall, setPandingApiCall] =useState(false);
+   useEffect(()=>{
+       let requestInterceptor, responseInterceptor;
+       const updatePanginga =(url, progess)=> {
+            if (url == apiPath) {
+                setPandingApiCall(progess);
             }
         }
 
 
-        render() {
-            const {pandingApiCall}=this.state;
-            return <WrappedComponenet pandingApiCall={pandingApiCall} {... this.props}/>;
+        const registerInterceptors =()=>{
+           axios.interceptors.request.use((request => {
+                requestInterceptor= updatePanginga(request.url, true);
 
+                return request;
+            }));
+           responseInterceptor= axios.interceptors.response.use(response => {
 
+                updatePanginga(response.config.url, false);
+
+                return response;
+            }, error => {
+                updatePanginga(error.config.url, false);
+
+                throw  error;
+            });
         }
-    }
+       const unregisterInterceptors=()=>{
+           axios.interceptors.request.eject(requestInterceptor);
+           axios.interceptors.response.eject(responseInterceptor);
+       }
+        registerInterceptors();
+       return function  unmount(){
+        unregisterInterceptors();
+       }
+    })
+    return pandingApiCall;
 }
+

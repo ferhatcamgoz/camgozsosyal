@@ -8,16 +8,18 @@ import {HashRouter as Router, Route, Redirect, Switch} from "react-router-dom";
 import HomePage from "../pages/HomePage";
 import TopBar from "../components/TopBar";
 import {Auth} from "../shared/AuthContext";
-import {connect} from "react-redux";
+import {connect, useSelector} from "react-redux";
 import {logoutSuccess} from "../redux/AuthActions";
 
 
-class App extends React.Component {
+const App = (props)=> {
  //   static contextType=Auth;
 
+    const {isLoggedIn}=useSelector((store)=>({
+    isLoggedIn:store.isLoggedIn
+}))
 
-  render(){
-     const isLoggedIn=this.props.store.isLoggedIn;
+
 
 
       return (
@@ -35,13 +37,9 @@ class App extends React.Component {
               <Language/>
           </div>
       );
-  }
+
 
 }
-const mapStateToProps = store => {
-    return {
-        store
-    };
-};
 
-export default connect(mapStateToProps)(App);
+
+export default (App);

@@ -1,53 +1,43 @@
-import axios from 'axios';
-import React from 'react';
+
+import {useState} from 'react';
 
 import Input from "../components/Input";
-import {kayit} from '../api/apiCalls';
-import { withTranslation } from 'react-i18next';
+
+import { useTranslation } from 'react-i18next';
 import  Buttonproges from "../components/buttonproges";
-import {withApiProgess} from "../shared/ApiProges";
+import {useAoiProgess, withApiProgess} from "../shared/ApiProges";
 import {singupHangler} from "../redux/AuthActions";
-import {connect} from "react-redux";
-class Usercreate extends React.Component{
-    state={
+import {useDispatch} from "react-redux";
+const Usercreate =(props)=> {
+    const [form, setForm] = useState({
         userName:null,
         nickName:null,
         password:null,
-        passwordRepeat:null,
-        errors:{}
-    };
-    onChange = event=>{
-        var {value, name}= event.target;
+        passwordRepeat:null
+    })
 
-        var errors = {... this.state.errors}
-        var {t} = this.props;
-        errors[name]=undefined
-        if(name=="password"||name=="passwordRepeat"){
-            if(name=="password" && value!=this.state.passwordRepeat){
+    const [errors,setErrors]=useState({});
+    const dispatch =useDispatch();
 
-                errors.passwordRepeat= t("Aynı şifreyi yaz");
-            }
-            else if(name=="passwordRepeat" && value!=this.state.password){
-                errors.passwordRepeat= t("Aynı şifreyi yaz");
-            }
-            else {
-                errors.passwordRepeat=undefined
-            }
-        }
-        this.setState({
-            [name]:value,
-            errors
 
-        });
+    const onChange = event=>{
+        const {value, name}= event.target;
+
+        setErrors((previousErrors)=>({ ...previousErrors, [name]:undefined}));
+
+        setForm((previousForm)=>({... previousForm, [name]:value}));
+
+
     }
-    onClickKayit = async event => {
+    const onClickKayit = async event => {
         event.preventDefault();
-        const {history , dispatch} = this.props;
-        const {push} =history;
+        const {history } = props;
+        const {push} =  history;
+        const {userName,nickName,password}=form;
         const body={
-            userName:this.state.userName,
-            nickName:this.state.nickName,
-            password:this.state.password
+            userName,
+            nickName,
+            password
         }
 
 
@@ -56,32 +46,39 @@ class Usercreate extends React.Component{
                 push("/");
         }
         catch (err){
-            if(err.response.data.validateexception){
-                this.setState({errors:err.response.data.validateexception})
+           if(err.response.data.validateexception){
+
+                setErrors(err.response.data.validateexception)
             }
 
-            console.log(this.state.errors);
+
         }
 
 
     }
 
 
-    render(){
-        const {errors} = this.state;
-        const {userName,nickName,password,passwordRepeat} = errors;
-        const {t,pandingApiCall} = this.props;
+
+       // const {errors} = this.state;
+        const {userName:usernameError,nickName:nickNameError,password:passwordError} = errors;
+        const {t} =useTranslation();
+        const pandingApiCall = useAoiProgess("/kayit")
+
+        let passwordRepeatError;
+        if(form.password !=form.passwordRepeat){
+            passwordRepeatError= t("Aynı şifreyi yaz");
+        }
         return (
             <div className="container">
                 <form>
                     <h1 className="text-center">{t('Sign Up')}</h1>
-                    <Input name ="userName" label={t("Username")} type="text" error={userName} onChange={this.onChange}/>
-                    <Input name ="nickName" label={t("NickName")} type="text" error={nickName} onChange={this.onChange}/>
-                    <Input name ="password" label={t("Password")} type="password" error={password} onChange={this.onChange}/>
-                    <Input name="passwordRepeat" label={t("Password Repeat")}  type="password" error={passwordRepeat}  onChange={this.onChange}/>
+                    <Input name ="userName" label={t("Username")} type="text" error={usernameError} onChange={onChange}/>
+                    <Input name ="nickName" label={t("NickName")} type="text" error={nickNameError} onChange={onChange}/>
+                    <Input name ="password" label={t("Password")} type="password" error={passwordError} onChange={onChange}/>
+                    <Input name="passwordRepeat" label={t("Password Repeat")}  type="password" error={passwordRepeatError}  onChange={onChange}/>
                     <div className="text-center">
-                        <Buttonproges  onClick={this.onClickKayit}
-                                       disabled={pandingApiCall ||passwordRepeat!=undefined}
+                        <Buttonproges  onClick={onClickKayit}
+                                       disabled={pandingApiCall ||form.passwordRepeat==undefined}
                                        pendingApiCall={pandingApiCall}
                                        text={t("Register")}
                         />
@@ -94,9 +91,8 @@ class Usercreate extends React.Component{
 
         );
 
-    }
-}
-const UserCreateProgess = withApiProgess(Usercreate,"/kayit");
-const userCreateWithTranslate = withTranslation()(UserCreateProgess);
 
-export default  connect()(withTranslation()(userCreateWithTranslate));
+}
+export default (Usercreate);
+
+

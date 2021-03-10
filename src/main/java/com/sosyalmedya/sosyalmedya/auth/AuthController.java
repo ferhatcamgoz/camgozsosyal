@@ -27,9 +27,6 @@ public class AuthController {
         @PostMapping("/auth")
         @JsonView(View.Base.class)
         ResponseEntity<?> handleAuth(@CurrnetUser User user){
-
-
-
             return ResponseEntity.ok(user);
         }
 }

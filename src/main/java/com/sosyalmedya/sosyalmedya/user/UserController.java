@@ -30,15 +30,4 @@ public class UserController {
         return new GenericResponse("Kayıt Başarılı");
 
     }
- /*   @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Apiexception handleValidetionException(MethodArgumentNotValidException methodArgumentNotValidException){
-        Apiexception apiexception = new Apiexception(400,"Kayıt Hatası","/kayit");
-        Map<String,String> hatalar = new HashMap<>();
-        for (FieldError err : methodArgumentNotValidException.getBindingResult().getFieldErrors()){
-            hatalar.put(err.getField(),err.getDefaultMessage());
-        }
-        apiexception.setValidateexception(hatalar);
-        return  apiexception;
-    }*/
 }

@@ -1,18 +1,30 @@
 import React, {Component} from 'react';
 import  logo from "../logo/sosyaltema.png"
 import {Link} from "react-router-dom";
-import {withTranslation} from "react-i18next";
-import { connect } from 'react-redux';
+import {useTranslation} from "react-i18next";
+import { useDispatch,useSelector } from 'react-redux';
 import {logoutSuccess} from "../redux/AuthActions";
 import mapDispatchToProps from "react-redux/lib/connect/mapDispatchToProps";
 
 //import {Auth} from "../shared/AuthContext";
-class TopBar extends Component {
+const TopBar =props =>{
    // static contextType=Auth;
 
-    render() {
-    const { t, logoutSuccess} =this.props;
-        const { isLoggedIn,userName}=  this.props.store;
+
+    const {t}=useTranslation();
+    const {isLoggedIn,userName}=useSelector(store=>({
+
+            isLoggedIn:store.isLoggedIn,
+            userName:store.userName
+
+    }));
+        const dispatch = useDispatch();
+
+        const onLogoutSuccess = () => {
+            dispatch(logoutSuccess());
+        };
+
+
 
 
                     let links =(
@@ -34,7 +46,7 @@ class TopBar extends Component {
                                         {userName}
                                     </Link>
                                 </li>
-                                <li className="nav-link"   onClick ={logoutSuccess} style={{cursor:"pointer"}} >
+                                <li className="nav-link"   onClick ={onLogoutSuccess} style={{cursor:"pointer"}} >
                                     {t('Logout')}
                                 </li>
                             </ul>
@@ -52,7 +64,6 @@ class TopBar extends Component {
                         </div>
 
                     );
-                }
 
 
 
@@ -60,12 +71,8 @@ class TopBar extends Component {
 
 
 }
-const TopBarWithTranslation = withTranslation()(TopBar);
 
-const mapStateToProps = store => {
-    return {
-       store
-    };
-};
 
-export default connect(mapStateToProps,{logoutSuccess})(TopBarWithTranslation);
+;
+
+export default (TopBar);

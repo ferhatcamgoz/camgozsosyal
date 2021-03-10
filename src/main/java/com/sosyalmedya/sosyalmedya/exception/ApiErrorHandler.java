@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-     public class ApiErrorHandler  implements ErrorController {
+ public class ApiErrorHandler  implements ErrorController {
     @Autowired
     ErrorAttributes errorAttributes;
         @RequestMapping("/error")
