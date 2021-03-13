@@ -4,6 +4,7 @@ package com.sosyalmedya.sosyalmedya.user;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.sosyalmedya.sosyalmedya.util.View;
 import lombok.Data;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +18,7 @@ import java.util.Collection;
 
 @Data
 @Entity
+@ToString
 public class User implements UserDetails {
 
     @Id

@@ -1,4 +1,4 @@
-import {kayit, login} from "../api/apiCalls";
+import {kayit, login, setAutho} from "../api/apiCalls";
 
 export const  logoutSuccess = ()=>{
     return {
@@ -18,7 +18,10 @@ export const  loginHandler = (cred) => {
            ... response.data,
            password:cred.password
        }
+
        dispatch(loginSuccess(authData) );
+       console.log(cred)
+
        return response;
     }
 }

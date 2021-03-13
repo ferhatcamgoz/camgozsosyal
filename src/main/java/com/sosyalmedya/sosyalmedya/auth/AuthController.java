@@ -3,6 +3,7 @@ package com.sosyalmedya.sosyalmedya.auth;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.sosyalmedya.sosyalmedya.exception.Apiexception;
 import com.sosyalmedya.sosyalmedya.user.User;
+import com.sosyalmedya.sosyalmedya.user.UserDTO;
 import com.sosyalmedya.sosyalmedya.user.UserRepository;
 import com.sosyalmedya.sosyalmedya.util.CurrnetUser;
 import com.sosyalmedya.sosyalmedya.util.View;
@@ -23,10 +24,8 @@ import java.util.Base64;
 public class AuthController {
         @Autowired
         UserRepository userRepository;
-        PasswordEncoder passwordEncoder= new BCryptPasswordEncoder();
         @PostMapping("/auth")
-        @JsonView(View.Base.class)
-        ResponseEntity<?> handleAuth(@CurrnetUser User user){
-            return ResponseEntity.ok(user);
+        UserDTO handleAuth(@CurrnetUser User user){
+            return new UserDTO(user);
         }
 }

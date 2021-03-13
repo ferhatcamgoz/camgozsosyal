@@ -18,7 +18,11 @@ import { initReactI18next } from 'react-i18next';
                 "Aynı şifreyi yaz":"Repeat Password Please",
                 "Login":"Login",
                 "Logins":"Login Page",
-                Logout:"Logout"
+                Logout:"Logout",
+                Users:"Users",
+                "Previus":"Previus",
+               "Next":"Next",
+                "Load fail":"\"Load fail\""
             }
         },
         tr:{
@@ -32,7 +36,11 @@ import { initReactI18next } from 'react-i18next';
                 "Aynı şifreyi yaz":"Aynı şifreyi yaz",
                 "Login":"Giriş Yap",
                 "Logins":"Giriş Sayfası",
-                Logout:"Çıkış Yap"
+                "Logout":"Çıkış Yap",
+                "Users":"Kullanıcılar",
+                "Previus":"önceki",
+                "Next":"ileri",
+                "Load fail":"Yükeleme Hatası"
             }
         }
     },

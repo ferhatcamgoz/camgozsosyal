@@ -5,7 +5,7 @@ export const useAoiProgess =(apiPath)=>{
    useEffect(()=>{
        let requestInterceptor, responseInterceptor;
        const updatePanginga =(url, progess)=> {
-            if (url == apiPath) {
+            if (url.startsWith(apiPath)) {
                 setPandingApiCall(progess);
             }
         }
@@ -36,7 +36,7 @@ export const useAoiProgess =(apiPath)=>{
        return function  unmount(){
         unregisterInterceptors();
        }
-    })
+    },[])
     return pandingApiCall;
 }
 

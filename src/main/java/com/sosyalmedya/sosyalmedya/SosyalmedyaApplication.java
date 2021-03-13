@@ -1,5 +1,9 @@
 package com.sosyalmedya.sosyalmedya;
 
+import com.sosyalmedya.sosyalmedya.user.User;
+import com.sosyalmedya.sosyalmedya.user.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -16,6 +20,19 @@ public class SosyalmedyaApplication {
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    CommandLineRunner createInitialUsers( UserService userService){
+        return (args)->{
+            for(int i =1;i<=25;i++){
+                User user= new User();
+                user.setUserName("user"+i);
+                user.setNickName("nick"+i);
+                user.setPassword("asdA1");
+                userService.save(user);
+            }
+        };
     }
 }
 
