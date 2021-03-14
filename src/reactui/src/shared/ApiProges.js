@@ -36,7 +36,7 @@ export const useAoiProgess =(apiPath)=>{
        return function  unmount(){
         unregisterInterceptors();
        }
-    },[])
+    },[apiPath])
     return pandingApiCall;
 }
 

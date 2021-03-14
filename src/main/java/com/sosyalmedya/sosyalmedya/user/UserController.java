@@ -48,4 +48,11 @@ public class UserController {
         });
     }
 
+    @GetMapping("/users/{userName}")
+    UserDTO getUser(@PathVariable String userName){
+       User user= userService.getByUserName(userName);
+       return  new UserDTO(user);
+    }
+
+
 }

@@ -24,3 +24,6 @@ export  const setAutho =({userName,password, isLoggedIn})=>{
 
 
 }
+export const getUser =userName=>{
+return axios.get(`/users/${userName}`);
+}

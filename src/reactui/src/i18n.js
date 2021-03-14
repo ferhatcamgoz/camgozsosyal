@@ -22,7 +22,8 @@ import { initReactI18next } from 'react-i18next';
                 Users:"Users",
                 "Previus":"Previus",
                "Next":"Next",
-                "Load fail":"\"Load fail\""
+                "Load fail":"\"Load fail\"",
+                UserNotFOUNT:"UserNotFOUNT"
             }
         },
         tr:{
@@ -40,7 +41,8 @@ import { initReactI18next } from 'react-i18next';
                 "Users":"Kullanıcılar",
                 "Previus":"önceki",
                 "Next":"ileri",
-                "Load fail":"Yükeleme Hatası"
+                "Load fail":"Yükeleme Hatası",
+                UserNotFOUNT:"Kullanıcı Bulunamadı"
             }
         }
     },

@@ -3,6 +3,7 @@ import {getUsers} from "../api/apiCalls";
 import {useTranslation, withTranslation} from "react-i18next";
 import UserListItem from "./UserListItem";
 import {useAoiProgess} from "../shared/ApiProges";
+import Spinner from "./Spinner";
 
 const UserList =()=> {
 
@@ -58,12 +59,7 @@ const UserList =()=> {
             </div>
        );
        if(pendingApiCall){
-           actionDiv=(
-               <div className={"d-flex justify-content-center"}>
-                   <div className={"spinner-border text-black-50" }></div>
-                   <span className={"sr-only"}> Loading</span>
-               </div>
-           )
+           actionDiv=<Spinner></Spinner>
        }
         return (
 
