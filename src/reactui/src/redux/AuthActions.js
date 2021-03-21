@@ -19,7 +19,7 @@ export const  loginHandler = (cred) => {
            password:cred.password
        }
 
-       dispatch(loginSuccess(authData) );
+       dispatch(loginSuccess(authData));
        console.log(cred)
 
        return response;

@@ -62,7 +62,7 @@ const Usercreate =(props)=> {
        // const {errors} = this.state;
         const {userName:usernameError,nickName:nickNameError,password:passwordError} = errors;
         const {t} =useTranslation();
-        const pandingApiCall = useAoiProgess("/kayit")
+        const pandingApiCall = useAoiProgess("post","/kayit");
 
         let passwordRepeatError;
         if(form.password !=form.passwordRepeat){

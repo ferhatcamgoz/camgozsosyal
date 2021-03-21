@@ -11,7 +11,7 @@ const UserPage = (props) => {
     const [user,setUser]=useState({});
     const [notFount,setNotFound]=useState(false);
     const {username}=useParams();
-    const pendingApiCall = useAoiProgess("/users/"+username)
+    const pendingApiCall = useAoiProgess("get","/users/"+username)
     const {t} =useTranslation();
     useEffect(()=>{
         loadUser();

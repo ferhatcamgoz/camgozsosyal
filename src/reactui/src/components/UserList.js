@@ -15,7 +15,7 @@ const UserList =()=> {
 
     })
     const [fail, setFail]=useState(false);
-    const pendingApiCall = useAoiProgess("/users?page")
+    const pendingApiCall = useAoiProgess("get","/users?page")
 
      useEffect(()=>{
         loadUsers();

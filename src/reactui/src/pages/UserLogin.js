@@ -31,6 +31,7 @@ const UserLogin=(props) =>{
 
         const {history } = props;
         const {push} =history;
+
         try {
           await  dispatch(loginHandler(creds));
             push("/");
@@ -41,7 +42,7 @@ const UserLogin=(props) =>{
 
     }
         const {t} = useTranslation();
-        const pandingApiCall=useAoiProgess("/auth")
+        const pandingApiCall=useAoiProgess("post","/auth")
 
         const buttonEnabled = username && password;
         return(

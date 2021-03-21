@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -52,6 +53,11 @@ public class UserController {
     UserDTO getUser(@PathVariable String userName){
        User user= userService.getByUserName(userName);
        return  new UserDTO(user);
+    }
+    @PutMapping("/users/{userName}")
+    @PreAuthorize("#userName == principal.userName")
+    UserDTO updateUser(@RequestBody UserNickName userNickName,@PathVariable String userName){
+        return new UserDTO(userService.updateUser(userNickName,userName));
     }
 
 

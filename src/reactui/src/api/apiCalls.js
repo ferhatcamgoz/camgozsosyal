@@ -21,9 +21,10 @@ export  const setAutho =({userName,password, isLoggedIn})=>{
     else {
         delete axios.defaults.headers["Authorization"];
     }
-
-
 }
 export const getUser =userName=>{
 return axios.get(`/users/${userName}`);
+}
+export const updateUser =(userName,body)=>{
+    return axios.put(`/users/${userName}`,body);
 }

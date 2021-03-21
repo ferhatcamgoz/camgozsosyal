@@ -1,11 +1,11 @@
 import React, {Component,useState,useEffect} from 'react';
 import axios from "axios";
-export const useAoiProgess =(apiPath)=>{
+export const useAoiProgess =(apiMethod,apiPath)=>{
    const [pandingApiCall, setPandingApiCall] =useState(false);
    useEffect(()=>{
        let requestInterceptor, responseInterceptor;
-       const updatePanginga =(url, progess)=> {
-            if (url.startsWith(apiPath)) {
+       const updatePanginga =(method,url, progess)=> {
+            if (url.startsWith(apiPath)&&method== apiMethod) {
                 setPandingApiCall(progess);
             }
         }
@@ -13,19 +13,21 @@ export const useAoiProgess =(apiPath)=>{
 
         const registerInterceptors =()=>{
            axios.interceptors.request.use((request => {
-                requestInterceptor= updatePanginga(request.url, true);
+               const {url,method}=request;
+                requestInterceptor= updatePanginga(method,url, true);
 
                 return request;
             }));
            responseInterceptor= axios.interceptors.response.use(response => {
-
-                updatePanginga(response.config.url, false);
+               const {url,method}=response.config;
+               updatePanginga(method,url, false);
 
                 return response;
             }, error => {
-                updatePanginga(error.config.url, false);
+               const {url,method}=error.config;
+               updatePanginga(method,url, false);
 
-                throw  error;
+               throw  error;
             });
         }
        const unregisterInterceptors=()=>{
@@ -36,7 +38,7 @@ export const useAoiProgess =(apiPath)=>{
        return function  unmount(){
         unregisterInterceptors();
        }
-    },[apiPath])
+    },[apiPath,apiMethod])
     return pandingApiCall;
 }
 

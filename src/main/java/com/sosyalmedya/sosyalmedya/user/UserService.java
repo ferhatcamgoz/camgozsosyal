@@ -38,4 +38,10 @@ public class UserService {
         }
         return user;
     }
+
+    public User updateUser(UserNickName userNickName, String userName) {
+        User user= getByUserName(userName);
+        user.setNickName(userNickName.getNickName());
+        return userRepository.save(user);
+    }
 }

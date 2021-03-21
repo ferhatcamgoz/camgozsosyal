@@ -1,10 +1,8 @@
 import i18n from "i18next";
 import { initReactI18next } from 'react-i18next';
 
-
-
  i18n
-  .use(initReactI18next) // passes i18n down to react-i18next
+  .use(initReactI18next)
   .init({
     resources:{
         en:{
@@ -23,7 +21,10 @@ import { initReactI18next } from 'react-i18next';
                 "Previus":"Previus",
                "Next":"Next",
                 "Load fail":"\"Load fail\"",
-                UserNotFOUNT:"UserNotFOUNT"
+                UserNotFOUNT:"UserNotFOUNT",
+                Edit:"Edit",
+                Save:"Save",
+                Cancel:"Cancel"
             }
         },
         tr:{
@@ -42,7 +43,10 @@ import { initReactI18next } from 'react-i18next';
                 "Previus":"önceki",
                 "Next":"ileri",
                 "Load fail":"Yükeleme Hatası",
-                UserNotFOUNT:"Kullanıcı Bulunamadı"
+                UserNotFOUNT:"Kullanıcı Bulunamadı",
+                Edit:"Düzenle",
+                Save:"Kaydet",
+                Cancel:"İptal Et"
             }
         }
     },
