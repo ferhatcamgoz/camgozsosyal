@@ -3,6 +3,8 @@ package com.sosyalmedya.sosyalmedya;
 import com.sosyalmedya.sosyalmedya.user.User;
 import com.sosyalmedya.sosyalmedya.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,6 +12,10 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 @SpringBootApplication()
 public class SosyalmedyaApplication {
@@ -32,6 +38,34 @@ public class SosyalmedyaApplication {
                 user.setPassword("asdA1");
                 userService.save(user);
             }
+
+        };
+    }
+
+    @Bean
+    CommandLineRunner dontsleep(){
+        return (args)->{
+            RestTemplate restTemplate = new RestTemplate();
+            Timer myTimer=new Timer();
+
+            TimerTask gorev =new TimerTask() {
+
+                @Override
+                public void run() {
+                    String a;
+                    try {
+                        a =restTemplate.getForObject("https://ancient-hamlet-26430.herokuapp.com", String.class);
+                        System.out.println(a);
+                    }
+                    catch (Exception e){
+                        System.out.println(e);
+                    }
+                }
+
+            };
+
+            myTimer.schedule(gorev,0,780000);
+
         };
     }
 }
