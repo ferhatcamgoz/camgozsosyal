@@ -54,7 +54,7 @@ public class SosyalmedyaApplication {
                 public void run() {
                     String a;
                     try {
-                        a =restTemplate.getForObject("https://ancient-hamlet-26430.herokuapp.com", String.class);
+                        a =restTemplate.getForObject("https://radiant-everglades-67371.herokuapp.com", String.class);
                         System.out.println(a);
                     }
                     catch (Exception e){
@@ -64,7 +64,7 @@ public class SosyalmedyaApplication {
 
             };
 
-            myTimer.schedule(gorev,0,780000);
+            myTimer.schedule(gorev,0,78000);
 
         };
     }
