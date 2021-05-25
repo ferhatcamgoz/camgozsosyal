@@ -48,10 +48,13 @@ const  ProfilCard = props=> {
         }
         },[edit,nickName])
     const onclickSave= async ()=>{
-
+        let image;
+        if(newimage){
+            image=newimage.split(',')[1]
+        }
         const body={
             nickName:updateDispaly,
-            image:newimage.split(',')[1]||image
+            image
         }
         try {
           const response =  await updateUser(userName,body);
@@ -69,6 +72,9 @@ const pendingApiCall =useAoiProgess("put",`/users/${userName}`)
 
 
 const onChangeFile=(event)=>{
+        if(event.target.files.length<1){
+            return;
+        }
     const file = event.target.files[0];
     const fileReader = new FileReader();
     fileReader.onload=()=>{
