@@ -2,13 +2,18 @@ import React, {Component} from 'react';
 import Picture from "../9.1 profile.png";
 
 const  UserImage  = props=> {
-    const {image}=props;
+    const {image,tempimage}=props;
     let imageSource=Picture;
     if(image){
-        imageSource=image;
+        imageSource="images/"+image;
     }
+
         return (
-            <img alt={"Profile"} src={imageSource} {...props}></img>
+            <img alt={"Profile"}
+                 src={tempimage||imageSource}
+                 {...props}
+                onError={event => event.target.src=Picture}
+            ></img>
 
         );
     }

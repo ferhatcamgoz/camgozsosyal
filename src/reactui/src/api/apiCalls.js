@@ -15,10 +15,12 @@ export const getUsers=(page=0,size=3)=>{
 }
 export  const setAutho =({userName,password, isLoggedIn})=>{
     if(isLoggedIn){
+
         const authvalue=`Basic ${btoa (userName+':'+password)}`
         axios.defaults.headers["Authorization"]=authvalue;
     }
     else {
+
         delete axios.defaults.headers["Authorization"];
     }
 }

@@ -22,8 +22,13 @@ import java.util.Base64;
 
 @RestController
 public class AuthController {
-        @Autowired
+        final
         UserRepository userRepository;
+
+        public AuthController(UserRepository userRepository) {
+                this.userRepository = userRepository;
+        }
+
         @PostMapping("/auth")
         UserDTO handleAuth(@CurrnetUser User user){
             return new UserDTO(user);

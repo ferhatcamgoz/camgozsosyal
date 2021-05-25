@@ -42,31 +42,7 @@ public class SosyalmedyaApplication {
         };
     }
 
-    @Bean
-    CommandLineRunner dontsleep(){
-        return (args)->{
-            RestTemplate restTemplate = new RestTemplate();
-            Timer myTimer=new Timer();
 
-            TimerTask gorev =new TimerTask() {
-
-                @Override
-                public void run() {
-                    String a;
-                    try {
-                        a =restTemplate.getForObject("https://ancient-hamlet-26430.herokuapp.com", String.class);
-                        System.out.println(a);
-                    }
-                    catch (Exception e){
-                        System.out.println(e);
-                    }
-                }
-
-            };
-
-            myTimer.schedule(gorev,0,78000);
-
-        };
     }
-}
+
 

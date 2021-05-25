@@ -1,27 +1,19 @@
 package com.sosyalmedya.sosyalmedya.user;
 
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.sosyalmedya.sosyalmedya.exception.Apiexception;
-
+import com.sosyalmedya.sosyalmedya.exception.NotFoundException;
 import com.sosyalmedya.sosyalmedya.util.CurrnetUser;
 import com.sosyalmedya.sosyalmedya.util.GenericResponse;
 
-import com.sosyalmedya.sosyalmedya.util.View;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @RestController
 public class UserController {
@@ -38,9 +30,20 @@ public class UserController {
         return new GenericResponse("Kayıt Başarılı");
 
     }
+    @GetMapping("/getUsers2")
+    public List<UserDTO> getUsers2(){
+
+        return userService.getUsers2().stream().map(new Function<User, UserDTO>() {
+            @Override
+            public UserDTO apply(User user) {
+                return new UserDTO(user);
+            }
+        }).collect(Collectors.toList());
+
+    }
     @GetMapping("/users")
     Page<UserDTO> getUsers(Pageable page, @CurrnetUser User user){
-        System.out.println(user); 
+
         return userService.getUsers(page,user).map(new Function<User, UserDTO>() {
             @Override
             public UserDTO apply(User user) {
@@ -52,12 +55,16 @@ public class UserController {
     @GetMapping("/users/{userName}")
     UserDTO getUser(@PathVariable String userName){
        User user= userService.getByUserName(userName);
+       if(user==null){
+           throw new NotFoundException();
+       }
        return  new UserDTO(user);
     }
     @PutMapping("/users/{userName}")
     @PreAuthorize("#userName == principal.userName")
-    UserDTO updateUser(@RequestBody UserNickName userNickName,@PathVariable String userName){
-        return new UserDTO(userService.updateUser(userNickName,userName));
+    UserDTO updateUser(@RequestBody UserUpdateDTO userUpdateDTO, @PathVariable String userName){
+        System.out.println(userUpdateDTO.getImage());
+        return new UserDTO(userService.updateUser(userUpdateDTO,userName));
     }
 
 

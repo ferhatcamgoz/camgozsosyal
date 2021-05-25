@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.validation.constraints.*;
 import java.util.Collection;
 
@@ -39,6 +40,7 @@ public class User implements UserDetails {
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message = "{user.password.pattern}")
     private String password;
     @JsonView(View.Base.class)
+
     private String image;
 
     @Override
@@ -46,6 +48,10 @@ public class User implements UserDetails {
         return AuthorityUtils.createAuthorityList("Role_user");
     }
 
+
+    public String getUserName() {
+        return this.userName;
+    }
     @Override
     public String getUsername() {
         return this.userName;

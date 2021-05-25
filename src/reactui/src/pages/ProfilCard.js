@@ -15,9 +15,20 @@ import Buttonproges from "../components/buttonproges";
 
 const  ProfilCard = props=> {
     const [edit,setEdit]=useState(false);
+
     const [updateDispaly,setUpdateDisplay]=useState();
     const routeParams =useParams();
     const [user,setUser]=useState({});
+    const [newimage,setNewImage]=useState();
+
+
+    const {loggedInUserName} =useSelector((store)=>({
+        loggedInUserName : store.userName
+    }));
+    const [editable,setEditable]=useState(false);
+    useEffect(()=>{
+        setEditable(loggedInUserName==routeParams.username)
+    },[loggedInUserName,routeParams.username])
     useEffect(()=>{
         setUser(props.user)
     },[props.user])
@@ -25,12 +36,11 @@ const  ProfilCard = props=> {
     const {t}=useTranslation();
     const {userName,nickName,image}=user;
     console.log(user)
-    const {loggedInUserName} =useSelector((store)=>({
-        loggedInUserName : store.userName
-    }));
+
     useEffect(()=>{
         if(!edit){
             setUpdateDisplay(undefined)
+            setNewImage(undefined)
 
         }
         else {
@@ -38,8 +48,10 @@ const  ProfilCard = props=> {
         }
         },[edit,nickName])
     const onclickSave= async ()=>{
+
         const body={
-            nickName:updateDispaly
+            nickName:updateDispaly,
+            image:newimage.split(',')[1]||image
         }
         try {
           const response =  await updateUser(userName,body);
@@ -54,16 +66,28 @@ const  ProfilCard = props=> {
     }
 
 const pendingApiCall =useAoiProgess("put",`/users/${userName}`)
-const editable = loggedInUserName==routeParams.username;
 
 
+const onChangeFile=(event)=>{
+    const file = event.target.files[0];
+    const fileReader = new FileReader();
+    fileReader.onload=()=>{
+        setNewImage(fileReader.result)
+
+    }
+    fileReader.readAsDataURL(file);
+}
     return(
         <div className={"card text-center"}>
             <div className={"card-header"}>
                 <UserImage className={"rounded-circle shadow "}
                            width="200" height="200"
                            alt={`${userName} profile`}
-                           image={user.image}/>
+                           image={user.image}
+                           tempimage={newimage}
+
+
+                />
 
             </div>
             <div className={"card-body "}>
@@ -80,6 +104,7 @@ const editable = loggedInUserName==routeParams.username;
                     <div>
 
                         <Input label={"NickName Değiştir"} defaultValue={nickName} onChange={(even)=>{setUpdateDisplay(even.target.value)}}></Input>
+                        <input type="file" onChange={onChangeFile}/>
                         <div>
                             <Buttonproges
                                 className={"btn btn-success d-inline-flex"}
