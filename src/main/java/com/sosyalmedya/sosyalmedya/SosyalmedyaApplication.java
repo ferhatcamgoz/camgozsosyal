@@ -30,7 +30,6 @@ public class SosyalmedyaApplication {
     }
 
     @Bean
-
     CommandLineRunner createInitialUsers( UserService userService){
         return (args)->{
             for(int i =1;i<=25;i++){

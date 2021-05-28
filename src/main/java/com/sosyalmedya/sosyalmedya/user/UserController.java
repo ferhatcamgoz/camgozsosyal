@@ -62,8 +62,8 @@ public class UserController {
     }
     @PutMapping("/users/{userName}")
     @PreAuthorize("#userName == principal.userName")
-    UserDTO updateUser(@RequestBody UserUpdateDTO userUpdateDTO, @PathVariable String userName){
-        System.out.println(userUpdateDTO.getImage());
+    UserDTO updateUser(@Valid @RequestBody UserUpdateDTO userUpdateDTO, @PathVariable String userName){
+
         return new UserDTO(userService.updateUser(userUpdateDTO,userName));
     }
 

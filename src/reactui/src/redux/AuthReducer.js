@@ -19,6 +19,15 @@ const authReducer = (state=defaultState,action)=>{
        }
 
     }
+    if(action.type=="update-user"){
+
+        return {
+            ... state,
+            ...action.payload
+
+        }
+
+    }
     return state;
 }
 export default authReducer;

@@ -54,15 +54,19 @@ public class UserService {
     public User updateUser(UserUpdateDTO userUpdateDTO, String userName) {
         User user= getByUserName(userName);
         user.setNickName(userUpdateDTO.getNickName());
-        String oldImage =user.getImage();
-        try {
+        if(userUpdateDTO.getImage()!=null){
+            String oldImage =user.getImage();
 
-            String storedFile=fileService.writeBase64EncodedFile(userUpdateDTO.getImage());
-            user.setImage(storedFile);
-        } catch (IOException e) {
-            e.printStackTrace();
+            try {
+
+                String storedFile=fileService.writeBase64EncodedFile(userUpdateDTO.getImage());
+                user.setImage(storedFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            fileService.deleteFile(oldImage);
         }
-        fileService.deleteFile(oldImage);
+
         return userRepository.save(user);
     }
 

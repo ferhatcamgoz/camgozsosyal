@@ -11,6 +11,18 @@ export const  loginSuccess = authData=>{
         payload:authData
     };
 }
+
+
+export const  updateUserRedux = ({ nickName, image })=>{
+    return {
+        type:"update-user",
+        payload:{
+            nickName,
+            image
+        }
+    };
+}
+
 export const  loginHandler = (cred) => {
    return async  dispatch =>{
        const response= await login(cred);

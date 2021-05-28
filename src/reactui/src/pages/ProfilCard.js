@@ -1,7 +1,7 @@
 import React, {Component, useEffect, useState} from 'react';
 import {Link, useParams} from 'react-router-dom';
 import {Auth} from "../shared/AuthContext";
-import { useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import Picture from "../9.1 profile.png";
 import UserImage from "../components/UserImage";
 import EditIcon from '@material-ui/icons/Edit';
@@ -11,6 +11,7 @@ import {Close, Save} from "@material-ui/icons";
 import {updateUser} from "../api/apiCalls";
 import {useAoiProgess} from "../shared/ApiProges";
 import Buttonproges from "../components/buttonproges";
+import {updateUserRedux} from "../redux/AuthActions";
 
 
 const  ProfilCard = props=> {
@@ -20,8 +21,8 @@ const  ProfilCard = props=> {
     const routeParams =useParams();
     const [user,setUser]=useState({});
     const [newimage,setNewImage]=useState();
-
-
+    const [validationError,setValidationError]=useState();
+    const dispatch = useDispatch();
     const {loggedInUserName} =useSelector((store)=>({
         loggedInUserName : store.userName
     }));
@@ -32,6 +33,16 @@ const  ProfilCard = props=> {
     useEffect(()=>{
         setUser(props.user)
     },[props.user])
+
+    useEffect(()=>{
+        setValidationError((prevValide)=>({
+            ...prevValide,
+            nickName:undefined
+        }))
+
+    },[updateDispaly])
+
+
     //const {user}=props;
     const {t}=useTranslation();
     const {userName,nickName,image}=user;
@@ -60,9 +71,10 @@ const  ProfilCard = props=> {
           const response =  await updateUser(userName,body);
             setEdit(false);
             setUser(response.data)
+            dispatch(updateUserRedux(response.data));
         }
         catch (err){
-
+        setValidationError(err.response.data.validateexception)
         }
 
         console.log(updateDispaly)
@@ -82,6 +94,11 @@ const onChangeFile=(event)=>{
 
     }
     fileReader.readAsDataURL(file);
+
+    setValidationError((prevValide)=>({
+        ...prevValide,
+        image:undefined
+    }))
 }
     return(
         <div className={"card text-center"}>
@@ -109,8 +126,12 @@ const onChangeFile=(event)=>{
                 {edit&&(
                     <div>
 
-                        <Input label={"NickName Değiştir"} defaultValue={nickName} onChange={(even)=>{setUpdateDisplay(even.target.value)}}></Input>
-                        <input type="file" onChange={onChangeFile}/>
+                        <Input label={"NickName Değiştir"}
+                               defaultValue={nickName}
+                               onChange={(even)=>{setUpdateDisplay(even.target.value)}}
+                               error={validationError.nickName}
+                        ></Input>
+                        <Input type="file" error={validationError.image} onChange={onChangeFile}/>
                         <div>
                             <Buttonproges
                                 className={"btn btn-success d-inline-flex"}

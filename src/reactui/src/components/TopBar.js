@@ -1,10 +1,11 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect, useRef, useState} from 'react';
 import  logo from "../logo/sosyaltema.png"
 import {Link} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import { useDispatch,useSelector } from 'react-redux';
 import {logoutSuccess} from "../redux/AuthActions";
 import mapDispatchToProps from "react-redux/lib/connect/mapDispatchToProps";
+import UserImage from "./UserImage";
 
 //import {Auth} from "../shared/AuthContext";
 const TopBar =props =>{
@@ -12,12 +13,28 @@ const TopBar =props =>{
 
 
     const {t}=useTranslation();
-    const {isLoggedIn,userName}=useSelector(store=>({
+    const {isLoggedIn,userName,image}=useSelector(store=>({
 
             isLoggedIn:store.isLoggedIn,
-            userName:store.userName
+            userName:store.userName,
+            image:store.image
 
     }));
+
+        const menuArea = useRef(null);
+
+        const [menuVisible, setMenuVisible] = useState(false);
+        useEffect(() => {
+            document.addEventListener('click', menuClickTracker);
+            return () => {
+                document.removeEventListener('click', menuClickTracker);
+            };
+        }, [isLoggedIn]);
+        const menuClickTracker = event => {
+            if (menuArea.current === null || !menuArea.current.contains(event.target)) {
+                setMenuVisible(false);
+            }
+        };
         const dispatch = useDispatch();
 
         const onLogoutSuccess = () => {
@@ -40,15 +57,31 @@ const TopBar =props =>{
                         </ul>
                     );
                     if(isLoggedIn){
-                        links=(     <ul className="navbar-nav ml-auto">
-                                <li>
-                                    <Link className="nav-link" to={`/user/${userName}`}>
-                                        {userName}
-                                    </Link>
+                        let dropDownClass = 'dropdown-menu p-0 shadow';
+                        if (menuVisible) {
+                            dropDownClass += ' show';
+                        }
+
+                        links=(
+                            <ul className="navbar-nav ml-auto" ref={menuArea}>
+                                <li className="nav-item dropdown">
+                                    <div className="d-flex"  style={{ cursor: 'pointer' }} onClick={() => setMenuVisible(true)}>
+                                        <UserImage image={image} width="32" height="32" className="rounded-circle m-auto" />
+                                        <span className="nav-link dropdown-toggle">{userName}</span>
+                                    </div>
+                                    <div className={dropDownClass}>
+                                        <Link  className="dropdown-item d-flex p-2"  onClick={() => setMenuVisible(false)} to={`/user/${userName}`}>
+                                            <i className="material-icons text-info mr-2">person</i>
+                                            {userName}
+                                        </Link>
+                                        <span  className="dropdown-item  d-flex p-2"   onClick ={onLogoutSuccess} style={{cursor:"pointer"}} >
+                                            <i className="material-icons text-danger mr-2">power_settings_new</i>
+                                            {t('Logout')}
+                                        </span >
+                                    </div>
+
                                 </li>
-                                <li className="nav-link"   onClick ={onLogoutSuccess} style={{cursor:"pointer"}} >
-                                    {t('Logout')}
-                                </li>
+
                             </ul>
                         );}
                     return (
