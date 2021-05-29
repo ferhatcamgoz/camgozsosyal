@@ -24,7 +24,8 @@ import { initReactI18next } from 'react-i18next';
                 UserNotFOUNT:"UserNotFOUNT",
                 Edit:"Edit",
                 Save:"Save",
-                Cancel:"Cancel"
+                Cancel:"Cancel",
+                Send:"Send"
             }
         },
         tr:{
@@ -46,7 +47,8 @@ import { initReactI18next } from 'react-i18next';
                 UserNotFOUNT:"Kullanıcı Bulunamadı",
                 Edit:"Düzenle",
                 Save:"Kaydet",
-                Cancel:"İptal Et"
+                Cancel:"İptal Et",
+                Send:"Gönder"
             }
         }
     },

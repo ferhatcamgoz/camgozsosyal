@@ -1,5 +1,7 @@
 package com.sosyalmedya.sosyalmedya;
 
+import com.sosyalmedya.sosyalmedya.message.Message;
+import com.sosyalmedya.sosyalmedya.message.MessageService;
 import com.sosyalmedya.sosyalmedya.user.User;
 import com.sosyalmedya.sosyalmedya.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,15 @@ public class SosyalmedyaApplication {
                 user.setNickName("nick"+i);
                 user.setPassword("asdA1");
                 userService.save(user);
+            }
+
+        };
+    }
+    @Bean
+    CommandLineRunner createMessage( MessageService messageService){
+        return (args)->{
+            for(int i =1;i<=50;i++){
+                messageService.postMessage("mesaj"+i);
             }
 
         };

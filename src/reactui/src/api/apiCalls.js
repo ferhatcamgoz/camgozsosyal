@@ -30,3 +30,10 @@ return axios.get(`/users/${userName}`);
 export const updateUser =(userName,body)=>{
     return axios.put(`/users/${userName}`,body);
 }
+
+export const Postmessage =(body)=>{
+    return axios.post(`/message`,body);
+}
+export const getmessage =(number=0)=>{
+    return axios.get("/message?page="+number);
+}
