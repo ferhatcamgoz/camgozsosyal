@@ -3,10 +3,10 @@ import {useSelector} from "react-redux";
 import UserImage from "./UserImage";
 import {Close} from "@material-ui/icons";
 import {useTranslation} from "react-i18next";
-import {getmessage, Postmessage} from "../api/apiCalls";
+import { Postmessage} from "../api/apiCalls";
 import {useAoiProgess} from "../shared/ApiProges";
 import Buttonproges from "./buttonproges";
-import MessageList from "./MessageList";
+
 
 const Message = () => {
     const {image} =useSelector((store)=>({

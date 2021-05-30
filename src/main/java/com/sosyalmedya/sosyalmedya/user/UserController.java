@@ -20,7 +20,7 @@ public class UserController {
 
    private final UserService userService;
 
-    UserController(UserService userService){
+    public UserController(UserService userService){
         this.userService=userService;
     }
 
@@ -44,12 +44,7 @@ public class UserController {
     @GetMapping("/users")
     Page<UserDTO> getUsers(Pageable page, @CurrnetUser User user){
 
-        return userService.getUsers(page,user).map(new Function<User, UserDTO>() {
-            @Override
-            public UserDTO apply(User user) {
-                return new UserDTO(user);
-            }
-        });
+        return userService.getUsers(page,user).map(UserDTO::new);
     }
 
     @GetMapping("/users/{userName}")
@@ -58,6 +53,7 @@ public class UserController {
        if(user==null){
            throw new NotFoundException();
        }
+        System.out.println(user.getImage());
        return  new UserDTO(user);
     }
     @PutMapping("/users/{userName}")

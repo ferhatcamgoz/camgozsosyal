@@ -34,6 +34,7 @@ export const updateUser =(userName,body)=>{
 export const Postmessage =(body)=>{
     return axios.post(`/message`,body);
 }
-export const getmessage =(number=0)=>{
-    return axios.get("/message?page="+number);
+export const getmessage =(username,number=0)=>{
+   const path =username? `/user/${username}/message?page=`:"/message?page="
+    return axios.get(path+number);
 }

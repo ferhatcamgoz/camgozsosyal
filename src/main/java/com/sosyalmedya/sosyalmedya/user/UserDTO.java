@@ -6,8 +6,6 @@ import lombok.Data;
 import javax.validation.constraints.Size;
 
 @Data
-@AllArgsConstructor
-
 public class UserDTO {
     private String userName;
 

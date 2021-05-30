@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Picture from "../9.1 profile.png"
+
 import {Link} from "react-router-dom";
 import UserImage from "./UserImage";
 const UserListItem=(props)=> {

@@ -1,13 +1,20 @@
-import React, {Component,useState,useEffect} from 'react';
+import React, {useState,useEffect} from 'react';
 import axios from "axios";
-export const useAoiProgess =(apiMethod,apiPath)=>{
+export const useAoiProgess =(apiMethod,apiPath,strictPath)=>{
    const [pandingApiCall, setPandingApiCall] =useState(false);
+
    useEffect(()=>{
        let requestInterceptor, responseInterceptor;
        const updatePanginga =(method,url, progess)=> {
-            if (url.startsWith(apiPath)&&method== apiMethod) {
+        if(method!=apiMethod){
+             return;
+        }
+        if(strictPath&& url===apiPath){
+            setPandingApiCall(progess);
+        }
+        else if (url.startsWith(apiPath)&&method== apiMethod) {
                 setPandingApiCall(progess);
-            }
+        }
         }
 
 
@@ -38,7 +45,7 @@ export const useAoiProgess =(apiMethod,apiPath)=>{
        return function  unmount(){
         unregisterInterceptors();
        }
-    },[apiPath,apiMethod])
+    },[apiPath,apiMethod,strictPath])
     return pandingApiCall;
 }
 

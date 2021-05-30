@@ -1,8 +1,8 @@
-import React, {Component, useEffect, useState} from 'react';
-import {Link, useParams} from 'react-router-dom';
-import {Auth} from "../shared/AuthContext";
+import React, { useEffect, useState} from 'react';
+import { useParams} from 'react-router-dom';
+
 import {useDispatch, useSelector} from "react-redux";
-import Picture from "../9.1 profile.png";
+
 import UserImage from "../components/UserImage";
 import EditIcon from '@material-ui/icons/Edit';
 import {useTranslation} from "react-i18next";

@@ -1,4 +1,4 @@
-import {kayit, login, setAutho} from "../api/apiCalls";
+import {kayit, login} from "../api/apiCalls";
 
 export const  logoutSuccess = ()=>{
     return {

@@ -7,9 +7,8 @@ import UserPage from "../pages/UserPage";
 import {HashRouter as Router, Route, Redirect, Switch} from "react-router-dom";
 import HomePage from "../pages/HomePage";
 import TopBar from "../components/TopBar";
-import {Auth} from "../shared/AuthContext";
+
 import {connect, useSelector} from "react-redux";
-import {logoutSuccess} from "../redux/AuthActions";
 
 
 const App = (props)=> {

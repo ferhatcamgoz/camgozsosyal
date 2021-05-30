@@ -32,7 +32,7 @@ public class SosyalmedyaApplication {
     }
 
     @Bean
-    CommandLineRunner createInitialUsers( UserService userService){
+    CommandLineRunner createInitialUsers( UserService userService,MessageService messageService){
         return (args)->{
             for(int i =1;i<=25;i++){
                 User user= new User();
@@ -40,19 +40,14 @@ public class SosyalmedyaApplication {
                 user.setNickName("nick"+i);
                 user.setPassword("asdA1");
                 userService.save(user);
+                for(int j =1;j<=2;j++){
+                    messageService.postMessage(new Message(i+". kullanacınının "+ j+". mesajı"),user);
+                }
             }
 
         };
     }
-    @Bean
-    CommandLineRunner createMessage( MessageService messageService){
-        return (args)->{
-            for(int i =1;i<=50;i++){
-                messageService.postMessage("mesaj"+i);
-            }
 
-        };
-    }
 
 
     }

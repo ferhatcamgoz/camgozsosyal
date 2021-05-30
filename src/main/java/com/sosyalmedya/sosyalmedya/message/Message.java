@@ -1,12 +1,10 @@
 package com.sosyalmedya.sosyalmedya.message;
 
+import com.sosyalmedya.sosyalmedya.user.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
@@ -15,7 +13,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class Message {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(length = 1000)
@@ -23,6 +21,9 @@ public class Message {
     private String content;
 
     private Date date ;
+
+    @ManyToOne
+    private User user;
 
     public Message(String content) {
         this.content = content;

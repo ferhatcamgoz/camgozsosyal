@@ -1,15 +1,14 @@
-import axios from 'axios';
+
 import React,{useState,useEffect} from 'react';
 import Input from "../components/Input";
-import { withTranslation } from 'react-i18next';
+
 import {useTranslation} from "react-i18next";
-import {useAoiProgess, withApiProgess} from '../shared/ApiProges';
-import {Auth} from "../shared/AuthContext";
-import {login} from "../api/apiCalls";
+import {useAoiProgess} from '../shared/ApiProges';
+
 import  Buttonproges from "../components/buttonproges";
-import {connect} from "react-redux";
+
 import  {useDispatch} from "react-redux";
-import {loginHandler, loginSuccess} from "../redux/AuthActions";
+import {loginHandler} from "../redux/AuthActions";
 
 
 const UserLogin=(props) =>{

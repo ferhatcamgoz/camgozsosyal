@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import { useDispatch,useSelector } from 'react-redux';
 import {logoutSuccess} from "../redux/AuthActions";
-import mapDispatchToProps from "react-redux/lib/connect/mapDispatchToProps";
+
 import UserImage from "./UserImage";
 
 //import {Auth} from "../shared/AuthContext";
