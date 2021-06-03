@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {getmessage, getNewMessageCount, getNewMessages, getOldMessage} from "../api/apiCalls";
+import { getmessage, getNewMessageCount, getNewMessages, getOldMessage} from "../api/apiCalls";
 import {useTranslation} from "react-i18next";
 import {useAoiProgess} from "../shared/ApiProges";
 import Spinner from "./Spinner";
@@ -16,7 +16,7 @@ const MessageList = () => {
     const {username}=useParams();
     const path = username? `/user/${username}/message?page=`:"/message?page="
     const initialProgess =useAoiProgess("get",path);
-
+    let looper;
     let loadId=0;
     let firstId=0;
     if(messages.content.length>0){
@@ -27,14 +27,18 @@ const MessageList = () => {
     }
     const loadMessage =useAoiProgess("get",`/message/${loadId}`,true);
     const loadNewMessage =useAoiProgess("get",`/message/${firstId}?direction=after`,true);
+
     useEffect(()=>{
         const getCount =async ()=>{
             const response =await  getNewMessageCount(firstId,username);
             setNewMessageCount(response.data.count);
         }
-        let looper=setInterval(()=>{
-            getCount()
-        },3000)
+         looper=setInterval(()=>{
+             if(newMessageCount==0){
+                 getCount()
+             }
+
+        },5000)
 
         return function (){
             clearInterval(looper)
@@ -77,6 +81,10 @@ const MessageList = () => {
             content:[...response.data,...previousMessage.content]
         }))
         setNewMessageCount(0);
+
+
+
+
     }
 
     const {content,last,number}=messages;

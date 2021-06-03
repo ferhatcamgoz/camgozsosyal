@@ -63,18 +63,5 @@ public class MessageController {
         System.out.println("geldimm");
         return messageService.getUserMessages(user,page).map(MessageDTO::new);
     }
-  /*  @GetMapping("/user/{user}/message/{id:[0-9]+}")
-    ResponseEntity<?> getUserMessagesofUser(@PathVariable Long id,@PathVariable String user,
-                                           @PageableDefault(sort = "id",direction = Sort.Direction.DESC) Pageable page
-                                            , @RequestParam(name = "count",required = false,defaultValue = "false") boolean count){
-        if(count) {
-            long newMessageCount = messageService.getNewMessageCountofUser(id,user);
-            Map<String, Long> response = new HashMap<>();
-            response.put("count", newMessageCount);
-            return ResponseEntity.ok(response);
-        }
 
-
-        return ResponseEntity.ok(messageService.getOldMessagesofUsers(id,user,page).map(MessageDTO::new));
-    }*/
 }

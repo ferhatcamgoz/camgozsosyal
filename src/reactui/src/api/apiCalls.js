@@ -49,6 +49,10 @@ export const getNewMessageCount =(id,username)=>{
     const path =username? `/user/${username}/message/${id}?count=true`:`/message/${id}?count=true`
     return axios.get(path);
 }
+
+
+
+
 export const getNewMessages =id=>{
     return axios.get(`/message/${id}?direction=after`)
 }

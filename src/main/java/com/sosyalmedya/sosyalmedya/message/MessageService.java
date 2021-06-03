@@ -47,17 +47,13 @@ public class MessageService {
             Specification<Message> specUserIs =userIs(indb);
             Specification<Message> specıdanduser=spec.and(specUserIs);
           return messageRepository.findAll(specıdanduser,pageable);
-           // return messageRepository.findByIdLessThanAndUser(id,indb,pageable);
+
         }
 
         return messageRepository.findAll(spec,pageable);
 
     }
-    /*public Page<Message> getOldMessagesofUsers(long id,String username,Pageable pageable) {
-        User user = userService.getByUserName(username);
 
-        return messageRepository.findByIdLessThanAndUser(id,user,pageable);
-    }*/
     public long getNewMessageCount(long id, String user){
         Specification<Message> specıdanduser=idGreaterThan(id);
         if(user!=null){
@@ -68,11 +64,6 @@ public class MessageService {
         return messageRepository.count(specıdanduser);
     }
 
-    /*public long getNewMessageCountofUser(Long id,String user) {
-       User user1 = userService.getByUserName(user);
-       return messageRepository.countByIdGreaterThanAndUser(id,user1);
-
-    }*/
 
     public List<Message> getNewMessages(long id, String user, Sort sort){
         Specification<Message> specıdanduser=idGreaterThan(id);

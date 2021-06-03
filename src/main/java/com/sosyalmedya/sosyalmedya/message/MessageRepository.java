@@ -13,15 +13,5 @@ public interface MessageRepository extends JpaRepository<Message,Long>, JpaSpeci
 
     Page<Message> findByUser(User user, Pageable page);
 
-    Page<Message> findByIdLessThan(long id ,Pageable pageable);
 
-    Page<Message> findByIdLessThanAndUser(long id,User user,Pageable pageable);
-
-    long countByIdGreaterThan(long id);
-
-    long countByIdGreaterThanAndUser(long id,User user);
-
-    List<Message> findByIdGreaterThan(long id, Sort sort);
-
-    List<Message> findByIdGreaterThanAndUser(long id,User user, Sort sort);
 }
