@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {getmessage} from "../api/apiCalls";
+import {getmessage, getNewMessageCount, getNewMessages, getOldMessage} from "../api/apiCalls";
 import {useTranslation} from "react-i18next";
 import {useAoiProgess} from "../shared/ApiProges";
 import Spinner from "./Spinner";
@@ -10,15 +10,42 @@ import {format} from "timeago.js";
 const MessageList = () => {
 
     const [messages,setMessages]=useState({content:[],last:true,number:0});
+    const [newMessageCount,setNewMessageCount] = useState(0);
     const {t,i18n} = useTranslation();
 
     const {username}=useParams();
     const path = username? `/user/${username}/message?page=`:"/message?page="
-    const pendingApiCall =useAoiProgess("get",path);
+    const initialProgess =useAoiProgess("get",path);
+
+    let loadId=0;
+    let firstId=0;
+    if(messages.content.length>0){
+        firstId= messages.content[0].id
+        const lastIndex =messages.content.length-1;
+        loadId=messages.content[lastIndex].id;
+
+    }
+    const loadMessage =useAoiProgess("get",`/message/${loadId}`,true);
+    const loadNewMessage =useAoiProgess("get",`/message/${firstId}?direction=after`,true);
+    useEffect(()=>{
+        const getCount =async ()=>{
+            const response =await  getNewMessageCount(firstId,username);
+            setNewMessageCount(response.data.count);
+        }
+        let looper=setInterval(()=>{
+            getCount()
+        },3000)
+
+        return function (){
+            clearInterval(looper)
+        }
+
+    },[firstId,username])
+
     useEffect(()=>{
 
         loadMessages();
-    },[])
+    },[username])
     const loadMessages =async (number)=>{
         try{
             const response = await getmessage(username,number);
@@ -30,16 +57,44 @@ const MessageList = () => {
         catch (err){
         }
     }
+    const loadOldMessage = async ()=>{
+        const lastIndex =messages.content.length-1;
+        const loadId=messages.content[lastIndex].id;
+
+        const response=  await getOldMessage(loadId,username);
+
+        setMessages(previousMessage=>({
+            ...response.data,
+            content:[...previousMessage.content,...response.data.content]
+        }))
+
+    }
+    const loadNewMessages=async ()=>{
+
+        const response = await  getNewMessages( messages.content[0].id);
+        setMessages(previousMessage=>({
+            ...previousMessage,
+            content:[...response.data,...previousMessage.content]
+        }))
+        setNewMessageCount(0);
+    }
+
     const {content,last,number}=messages;
 
 
 
     if(messages.content.length==0){
-        return <div className={"alert alert-info text-center"}> {pendingApiCall?<Spinner/>: t("There is not message")}</div>
+        return <div className={"alert alert-info text-center"}> {initialProgess?<Spinner/>: t("There is not message")}</div>
     }
     return (
         <div>
+            {newMessageCount>0&&(
+                <div className={"alert alert-secondary text-center"} style={{cursor:loadNewMessage?"not-allowed":"pointer"}}   onClick={()=>loadNewMessages()}>
+            {loadNewMessage?<Spinner></Spinner>:"Load"}
+                </div>
+            )}
             {content.map(mesaj=>{
+
                 const formatt = format(mesaj.date,i18n.language);
                 return(
                     <div className={"card p-1"} key={mesaj.id}>
@@ -62,8 +117,8 @@ const MessageList = () => {
                     </div>
                 )
             })}
-            {!last&&<div className={"alert alert-secondary text-center"}  onClick={()=>loadMessages(number+1)}>
-
+            {!last&&<div className={"alert alert-secondary text-center"} style={{cursor:loadMessage?"not-allowed":"pointer"}}   onClick={()=>loadOldMessage()}>
+                {loadMessage?<Spinner></Spinner>:"Load"}
             </div>}
 
         </div>

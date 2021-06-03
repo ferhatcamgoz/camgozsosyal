@@ -38,3 +38,17 @@ export const getmessage =(username,number=0)=>{
    const path =username? `/user/${username}/message?page=`:"/message?page="
     return axios.get(path+number);
 }
+
+export const getOldMessage =(id)=>{
+
+    return axios.get(`/message/${id}`);
+}
+
+
+export const getNewMessageCount =(id,username)=>{
+    const path =username? `/user/${username}/message/${id}?count=true`:`/message/${id}?count=true`
+    return axios.get(path);
+}
+export const getNewMessages =id=>{
+    return axios.get(`/message/${id}?direction=after`)
+}
