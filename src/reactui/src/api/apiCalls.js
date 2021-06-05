@@ -56,3 +56,7 @@ export const getNewMessageCount =(id,username)=>{
 export const getNewMessages =id=>{
     return axios.get(`/message/${id}?direction=after`)
 }
+
+export const postMessageFile =file=>{
+    return axios.post("/message-file",file);
+}
