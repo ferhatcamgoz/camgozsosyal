@@ -18,10 +18,11 @@ const Message = () => {
     const [bird,setBird] =useState("");
     const [error,setError] =useState();
     const [newimage,setNewImage]=useState();
-
+    const [fileAttact,setFileAttact]=useState();
     const postBird = async ()=>{
         const body={
-            content:bird
+            content:bird,
+            fileAttactmentId:fileAttact
         }
         try{
             await Postmessage(body);
@@ -51,7 +52,8 @@ const Message = () => {
     const uploadFile = async (file)=>{
         const attactment =new FormData();
         attactment.append("image",file);
-        await  postMessageFile(attactment);
+       const response = await  postMessageFile(attactment);
+       setFileAttact(response.data.id);
     }
     return (
         <div className={"card p-1 flex-row"}>
@@ -88,6 +90,7 @@ const Message = () => {
                                setBird("");
                                setError(undefined)
                                setNewImage();
+                               setFileAttact();
                            }}>
                        <Close></Close>
                        {t("Cancel")}

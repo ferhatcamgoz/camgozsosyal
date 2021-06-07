@@ -2,6 +2,7 @@ package com.sosyalmedya.sosyalmedya;
 
 import com.sosyalmedya.sosyalmedya.message.Message;
 import com.sosyalmedya.sosyalmedya.message.MessageService;
+import com.sosyalmedya.sosyalmedya.message.MessageSubmitDTO;
 import com.sosyalmedya.sosyalmedya.user.User;
 import com.sosyalmedya.sosyalmedya.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,9 @@ public class SosyalmedyaApplication {
                 user.setPassword("asdA1");
                 userService.save(user);
                 for(int j =1;j<=15;j++){
-                    messageService.postMessage(new Message(i+". kullanacınının "+ j+". mesajı"),user);
+                    MessageSubmitDTO messageSubmitDTO= new MessageSubmitDTO();
+                    messageSubmitDTO.setContent(i+". kullanacınının "+ j+". mesajı");
+                    messageService.postMessage(messageSubmitDTO,user);
                 }
             }
 

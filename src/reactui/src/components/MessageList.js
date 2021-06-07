@@ -34,9 +34,9 @@ const MessageList = () => {
             setNewMessageCount(response.data.count);
         }
          looper=setInterval(()=>{
-             if(newMessageCount==0){
+
                  getCount()
-             }
+
 
         },5000)
 
@@ -122,6 +122,18 @@ const MessageList = () => {
 
                     </div>
                         <div className={"pl-5"}>{mesaj.content}</div>
+                        {mesaj.fileAttactment&&(
+                            <div className={"pl-5"}>
+
+                                {mesaj.fileAttactment.fileType.startsWith("image")&&(
+                                    <img className={"img-fluid"} src={"images/attachments/"+ mesaj.fileAttactment.name}/>
+
+                                )}
+                                {!mesaj.fileAttactment.fileType.startsWith("image")&&(
+                                    <strong>Message eklentisi desteklenmiyor</strong>
+                                )}
+                                    </div>
+                        )}
                     </div>
                 )
             })}

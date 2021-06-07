@@ -5,7 +5,7 @@ const  UserImage  = props=> {
     const {image,tempimage}=props;
     let imageSource=Picture;
     if(image){
-        imageSource="images/"+image;
+        imageSource="images/profile/"+image;
     }
 
         return (

@@ -64,7 +64,7 @@ public class UserService {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            fileService.deleteFile(oldImage);
+            fileService.deleteProfileImageFile(oldImage);
         }
 
         return userRepository.save(user);

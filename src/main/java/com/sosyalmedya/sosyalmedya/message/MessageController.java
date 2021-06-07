@@ -26,10 +26,10 @@ public class MessageController {
     MessageService messageService;
 
     @PostMapping("/message")
-    public Message postMassege(@Valid @RequestBody Message message, @CurrnetUser User user){
+    public MessageSubmitDTO postMassege(@Valid @RequestBody MessageSubmitDTO message, @CurrnetUser User user){
         System.out.println(user);
-        message.setUser(user);
-        return messageService.postMessage(message,user);
+        messageService.postMessage(message,user);
+        return message;
     }
     @GetMapping("/message")
     Page<MessageDTO> getMessages(@PageableDefault(sort = "id",direction = Sort.Direction.DESC) Pageable page){

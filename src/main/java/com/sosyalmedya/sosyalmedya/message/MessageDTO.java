@@ -1,5 +1,7 @@
 package com.sosyalmedya.sosyalmedya.message;
 
+import com.sosyalmedya.sosyalmedya.file.FileAttactment;
+import com.sosyalmedya.sosyalmedya.file.FileAttactmentDTO;
 import com.sosyalmedya.sosyalmedya.user.User;
 import com.sosyalmedya.sosyalmedya.user.UserDTO;
 import lombok.Data;
@@ -17,10 +19,15 @@ public class MessageDTO {
     private String content;
     private long date ;
     private UserDTO userDTO;
+    private FileAttactmentDTO fileAttactment;
     public MessageDTO(Message message){
         this.setId(message.getId());
         this.setContent(message.getContent());
         this.setDate(message.getDate().getTime());
         this.setUserDTO(new UserDTO(message.getUser()));
-    }
+        if(message.getFileAttactment()!=null){
+            this.fileAttactment=new FileAttactmentDTO(message.getFileAttactment());
+
+        }
+        }
 }

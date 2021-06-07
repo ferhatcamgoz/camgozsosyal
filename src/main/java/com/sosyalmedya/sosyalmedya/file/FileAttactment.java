@@ -18,6 +18,8 @@ public class FileAttactment {
 
     private Date date;
 
+    private String fileType;
+
     @OneToOne
     private Message message;
 }

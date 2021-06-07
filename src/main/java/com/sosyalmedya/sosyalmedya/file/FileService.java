@@ -39,7 +39,7 @@ public class FileService {
 
         if(image!=null){
             String fileName=generateRandomString();
-            File target =new File(appConfig.getUploadPath()+"/"+fileName);
+            File target =new File(appConfig.getProfileStroge()+"/"+fileName);
             OutputStream outputStream = new FileOutputStream(target);
             byte[]base64encoded = Base64.getDecoder().decode(image);
 
@@ -54,12 +54,12 @@ public class FileService {
 
 
     }
-    public void deleteFile(String image){
+    public void deleteProfileImageFile(String image){
         if(image==null){
             return;
         }
         try {
-            Files.deleteIfExists((Paths.get(appConfig.getUploadPath(),image)));
+            Files.deleteIfExists((Paths.get(appConfig.getProfileStroge(),image)));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -78,18 +78,22 @@ public class FileService {
 
     public FileAttactment saveFile(MultipartFile multipartFile) {
         String fileName=generateRandomString();
-        File target =new File(appConfig.getUploadPath()+"/"+fileName);
+        File target =new File(appConfig.getAttachmentsStroge()+"/"+fileName);
         OutputStream outputStream = null;
+        String fileType=null;
         try {
+            byte[] bytes = multipartFile.getBytes();
             outputStream = new FileOutputStream(target);
-            outputStream.write(multipartFile.getBytes());
+            outputStream.write(bytes);
             outputStream.close();
+            fileType=tika.detect(bytes);
         } catch (Exception e) {
             e.printStackTrace();
         }
         FileAttactment file = new FileAttactment();
         file.setName(fileName);
         file.setDate(new Date());
+        file.setFileType(fileType);
        return fileRepository.save(file);
 
 
@@ -101,8 +105,18 @@ public class FileService {
         Date date = new Date(System.currentTimeMillis()-24*60*60*1000);
         List<FileAttactment> messageList = fileRepository.findByDateBeforeAndMessageIsNull(date);
         for (FileAttactment message:messageList){
-            deleteFile(message.getName());
+            deleteAttactmentImageFile(message.getName());
             fileRepository.deleteById(message.getId());
+        }
+    }
+    public void deleteAttactmentImageFile(String image){
+        if(image==null){
+            return;
+        }
+        try {
+            Files.deleteIfExists((Paths.get(appConfig.getAttachmentsStroge(),image)));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.sosyalmedya.sosyalmedya.message;
 
+import com.sosyalmedya.sosyalmedya.file.FileAttactment;
+import com.sosyalmedya.sosyalmedya.file.FileRepository;
 import com.sosyalmedya.sosyalmedya.user.User;
 import com.sosyalmedya.sosyalmedya.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MessageService {
@@ -24,11 +27,23 @@ public class MessageService {
     @Autowired
     UserService userService;
 
-    public Message postMessage(Message message, User user){
+    @Autowired
+    FileRepository fileRepository;
+
+    public void postMessage(MessageSubmitDTO messageSubmitDTO, User user){
         System.out.println(user);
+        Message message = new Message();
+        message.setContent(messageSubmitDTO.getContent());
         message.setDate(new Date());
         message.setUser(user);
-       return messageRepository.save(message);
+       messageRepository.save(message);
+      Optional<FileAttactment> optionalFileAttactment= fileRepository.findById(messageSubmitDTO.getFileAttactmentId());
+
+      if(optionalFileAttactment.isPresent()){
+            FileAttactment fileAttactment1 = optionalFileAttactment.get();
+            fileAttactment1.setMessage(message);
+            fileRepository.save(fileAttactment1);
+      }
     }
 
     public Page<Message> getMessages(Pageable page) {

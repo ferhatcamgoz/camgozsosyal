@@ -1,5 +1,6 @@
 package com.sosyalmedya.sosyalmedya.message;
 
+import com.sosyalmedya.sosyalmedya.file.FileAttactment;
 import com.sosyalmedya.sosyalmedya.user.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,9 @@ public class Message {
 
     @ManyToOne
     private User user;
+
+    @OneToOne(mappedBy ="message")
+    private FileAttactment fileAttactment;
 
     public Message(String content) {
         this.content = content;
