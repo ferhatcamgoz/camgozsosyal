@@ -4,6 +4,7 @@ import com.sosyalmedya.sosyalmedya.user.User;
 import com.sosyalmedya.sosyalmedya.user.UserDTO;
 import com.sosyalmedya.sosyalmedya.user.UserService;
 import com.sosyalmedya.sosyalmedya.util.CurrnetUser;
+import com.sosyalmedya.sosyalmedya.util.GenericResponse;
 import com.sun.xml.bind.v2.runtime.output.SAXOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,7 +29,7 @@ public class MessageController {
 
     @PostMapping("/message")
     public MessageSubmitDTO postMassege(@Valid @RequestBody MessageSubmitDTO message, @CurrnetUser User user){
-        System.out.println(user);
+
         messageService.postMessage(message,user);
         return message;
     }
@@ -63,5 +65,13 @@ public class MessageController {
         System.out.println("geldimm");
         return messageService.getUserMessages(user,page).map(MessageDTO::new);
     }
+
+    @DeleteMapping("/message/{id:[0-9]+}")
+     @PreAuthorize("@messageSecurityService.authorizationControl(#id,principal)")
+    GenericResponse deleteMessage(@PathVariable long id){
+         messageService.delete(id);
+        return new GenericResponse("delete complate");
+    }
+
 
 }

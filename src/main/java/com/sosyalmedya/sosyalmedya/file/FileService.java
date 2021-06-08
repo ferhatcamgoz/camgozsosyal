@@ -2,6 +2,7 @@ package com.sosyalmedya.sosyalmedya.file;
 
 import com.sosyalmedya.sosyalmedya.config.AppConfig;
 import com.sosyalmedya.sosyalmedya.message.Message;
+import com.sosyalmedya.sosyalmedya.user.User;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.apache.tika.Tika;
@@ -118,5 +119,9 @@ public class FileService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<FileAttactment> getByFilesHaveUser(User user){
+        return fileRepository.findByMessageUser(user);
     }
 }

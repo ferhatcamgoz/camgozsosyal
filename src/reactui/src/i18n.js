@@ -1,6 +1,7 @@
 import i18n from "i18next";
 import { initReactI18next } from 'react-i18next';
 import {register} from "timeago.js";
+import React from "react";
 
  i18n
   .use(initReactI18next)
@@ -26,7 +27,11 @@ import {register} from "timeago.js";
                 Edit:"Edit",
                 Save:"Save",
                 Cancel:"Cancel",
-                Send:"Send"
+                Send:"Send",
+                "Delete Message":"Delete Message",
+                "Are your sure to delete message?":"\"Are your sure to delete message?\"",
+                Delete:"Delete",
+                DeleteAcount:"Delete My Account"
             }
         },
         tr:{
@@ -49,7 +54,12 @@ import {register} from "timeago.js";
                 Edit:"Düzenle",
                 Save:"Kaydet",
                 Cancel:"İptal Et",
-                Send:"Gönder"
+                Send:"Gönder",
+                "Delete Message":"Mesajı Sil",
+                "Are your sure to delete message?":"Messajı silmek istediğinizden emin misiniz?",
+                Delete:"Sil",
+                "DeleteAcount":"Hesabımı Sil"
+
             }
         }
     },

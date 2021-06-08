@@ -60,3 +60,10 @@ export const getNewMessages =id=>{
 export const postMessageFile =file=>{
     return axios.post("/message-file",file);
 }
+
+export const deleteMessage =id=>{
+    return axios.delete("/message/"+id);
+}
+export const deleteUser =userName=>{
+    return axios.delete("/users/"+userName);
+}

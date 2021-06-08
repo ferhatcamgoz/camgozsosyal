@@ -1,5 +1,5 @@
-import React, { useEffect, useState} from 'react';
-import { useParams} from 'react-router-dom';
+import React, {useEffect, useImperativeHandle, useState} from 'react';
+import {useHistory, useParams} from 'react-router-dom';
 
 import {useDispatch, useSelector} from "react-redux";
 
@@ -8,10 +8,11 @@ import EditIcon from '@material-ui/icons/Edit';
 import {useTranslation} from "react-i18next";
 import Input from "../components/Input";
 import {Close, Save} from "@material-ui/icons";
-import {updateUser} from "../api/apiCalls";
+import {deleteUser, updateUser} from "../api/apiCalls";
 import {useAoiProgess} from "../shared/ApiProges";
 import Buttonproges from "../components/buttonproges";
-import {updateUserRedux} from "../redux/AuthActions";
+import {logoutSuccess, updateUserRedux} from "../redux/AuthActions";
+import Modal from "../components/Modal";
 
 
 const  ProfilCard = props=> {
@@ -20,12 +21,14 @@ const  ProfilCard = props=> {
     const [updateDispaly,setUpdateDisplay]=useState();
     const routeParams =useParams();
     const [user,setUser]=useState({});
+    const [visible,setVisible]=useState(false);
     const [newimage,setNewImage]=useState();
     const [validationError,setValidationError]=useState();
     const dispatch = useDispatch();
     const {loggedInUserName} =useSelector((store)=>({
         loggedInUserName : store.userName
     }));
+    const history = useHistory();
     const [editable,setEditable]=useState(false);
     useEffect(()=>{
         setEditable(loggedInUserName==routeParams.username)
@@ -81,7 +84,7 @@ const  ProfilCard = props=> {
     }
 
 const pendingApiCall =useAoiProgess("put",`/users/${userName}`)
-
+    const pendingApiCallDelete =useAoiProgess("delete",`/users/`)
 
 const onChangeFile=(event)=>{
         if(event.target.files.length<1){
@@ -100,6 +103,13 @@ const onChangeFile=(event)=>{
         image:undefined
     }))
 }
+const deleteAccount = async ()=>{
+    await deleteUser(userName);
+    setVisible(false);
+    dispatch(logoutSuccess());
+    history.push("/")
+
+}
     return(
         <div className={"card text-center"}>
             <div className={"card-header"}>
@@ -117,11 +127,24 @@ const onChangeFile=(event)=>{
                 {!edit&&
                     <>
             <h3>{userName}</h3>
-                        {editable&& <button className={"btn btn-success d-inline-flex"}
+                        {editable&&
+                        <>
+                            <button className={"btn btn-success d-inline-flex"}
                         onClick={()=>setEdit(true)}>
                     <EditIcon>edit</EditIcon>
                     {t("Edit")}
-                </button>}
+                </button>
+                       <div></div>
+                            <Modal pendingApiCall={pendingApiCallDelete} data={loggedInUserName} visible={visible} setVisiable={setVisible} onClickOk={deleteAccount}/>
+
+                            <button
+                                onClick={()=>setVisible(true)}
+
+                                className={"btn btn-danger"}
+                            > {t("DeleteAcount")}</button>
+                        </>
+
+                        }
                     </>}
                 {edit&&(
                     <div>

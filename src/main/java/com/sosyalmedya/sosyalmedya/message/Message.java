@@ -26,7 +26,7 @@ public class Message {
     @ManyToOne
     private User user;
 
-    @OneToOne(mappedBy ="message")
+    @OneToOne(mappedBy ="message",cascade = CascadeType.REMOVE)
     private FileAttactment fileAttactment;
 
     public Message(String content) {

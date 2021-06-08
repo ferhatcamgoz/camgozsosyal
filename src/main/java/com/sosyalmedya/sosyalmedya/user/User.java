@@ -2,6 +2,7 @@ package com.sosyalmedya.sosyalmedya.user;
 
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.sosyalmedya.sosyalmedya.message.Message;
 import com.sosyalmedya.sosyalmedya.util.View;
 import lombok.Data;
 import lombok.ToString;
@@ -13,10 +14,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.Collection;
+import java.util.List;
 
 @Data
 @Entity
-@ToString
 public class User implements UserDetails {
 
     @Id
@@ -37,8 +38,10 @@ public class User implements UserDetails {
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message = "{user.password.pattern}")
     private String password;
     @JsonView(View.Base.class)
-
     private String image;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Message> messageList;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -72,5 +75,17 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", nickName='" + nickName + '\'' +
+                ", password='" + password + '\'' +
+                ", image='" + image + '\'' +
+                ", messageList=" + messageList +
+                '}';
     }
 }

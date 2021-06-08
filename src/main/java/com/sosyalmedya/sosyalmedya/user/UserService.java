@@ -3,6 +3,7 @@ package com.sosyalmedya.sosyalmedya.user;
 
 
 import com.sosyalmedya.sosyalmedya.exception.NotFoundException;
+import com.sosyalmedya.sosyalmedya.file.FileAttactment;
 import com.sosyalmedya.sosyalmedya.file.FileService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -71,5 +72,13 @@ public class UserService {
     }
 
 
-
+    public void deleteUser(String userName) {
+        User user= userRepository.findByUserName(userName);
+        fileService.deleteProfileImageFile(user.getImage());
+       List<FileAttactment> fileAttactmentList=  fileService.getByFilesHaveUser(user);
+       for (FileAttactment fileAttactment:fileAttactmentList){
+           fileService.deleteAttactmentImageFile(fileAttactment.getName());
+       }
+       userRepository.delete(user);
+    }
 }

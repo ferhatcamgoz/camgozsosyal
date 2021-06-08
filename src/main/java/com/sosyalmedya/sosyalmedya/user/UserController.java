@@ -63,5 +63,12 @@ public class UserController {
         return new UserDTO(userService.updateUser(userUpdateDTO,userName));
     }
 
+    @DeleteMapping("/users/{userName}")
+    @PreAuthorize("#userName == principal.userName")
+    GenericResponse deleteUser(@PathVariable String userName){
+        userService.deleteUser(userName);
+        return new GenericResponse("delete complate");
+    }
+
 
 }

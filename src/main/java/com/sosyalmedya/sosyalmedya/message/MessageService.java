@@ -2,8 +2,10 @@ package com.sosyalmedya.sosyalmedya.message;
 
 import com.sosyalmedya.sosyalmedya.file.FileAttactment;
 import com.sosyalmedya.sosyalmedya.file.FileRepository;
+import com.sosyalmedya.sosyalmedya.file.FileService;
 import com.sosyalmedya.sosyalmedya.user.User;
 import com.sosyalmedya.sosyalmedya.user.UserService;
+import com.sosyalmedya.sosyalmedya.util.GenericResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,8 +32,11 @@ public class MessageService {
     @Autowired
     FileRepository fileRepository;
 
+    @Autowired
+    FileService fileService;
+
     public void postMessage(MessageSubmitDTO messageSubmitDTO, User user){
-        System.out.println(user);
+
         Message message = new Message();
         message.setContent(messageSubmitDTO.getContent());
         message.setDate(new Date());
@@ -117,5 +122,14 @@ public class MessageService {
 
             }
         };
+    }
+
+    public void delete(long id) {
+        Message message =   messageRepository.getOne(id);
+        if(message.getFileAttactment()!=null){
+            String fileName=message.getFileAttactment().getName();
+            fileService.deleteAttactmentImageFile(fileName);
+        }
+        messageRepository.deleteById(id);
     }
 }
