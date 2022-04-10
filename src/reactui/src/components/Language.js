@@ -11,8 +11,8 @@ const Language =(props)=>{
     }
     return (
         <div className="container">
-               <img src="https://www.countryflags.io/tr/flat/24.png" alt="tr flag" onClick={()=>onChangeLanguage("tr")} style={{cursor: "pointer"}} />
-               <img src="https://www.countryflags.io/us/flat/24.png" alt="us flag" onClick={()=>onChangeLanguage("en")} style={{cursor: "pointer"}}/>
+               <img src="https://www.worldometers.info/img/flags/tu-flag.gif" alt="tr flag" onClick={()=>onChangeLanguage("tr")} style={{cursor: "pointer"}} width="65" height="30" />
+               <img src="https://www.worldometers.info/img/flags/uk-flag.gif" alt="us flag" onClick={()=>onChangeLanguage("en")} style={{cursor: "pointer"}}width="65" height="30" />
         </div>
     );
 };

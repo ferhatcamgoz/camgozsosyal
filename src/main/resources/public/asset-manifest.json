@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/static/css/main.19c2a8fe.chunk.css",
+    "main.js": "/static/js/main.08d61b85.chunk.js",
+    "main.js.map": "/static/js/main.08d61b85.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.4e6b04cc.js",
+    "runtime-main.js.map": "/static/js/runtime-main.4e6b04cc.js.map",
+    "static/js/2.a1bea137.chunk.js": "/static/js/2.a1bea137.chunk.js",
+    "static/js/2.a1bea137.chunk.js.map": "/static/js/2.a1bea137.chunk.js.map",
+    "static/js/3.bd2110bc.chunk.js": "/static/js/3.bd2110bc.chunk.js",
+    "static/js/3.bd2110bc.chunk.js.map": "/static/js/3.bd2110bc.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/main.19c2a8fe.chunk.css.map": "/static/css/main.19c2a8fe.chunk.css.map",
+    "static/js/2.a1bea137.chunk.js.LICENSE.txt": "/static/js/2.a1bea137.chunk.js.LICENSE.txt",
+    "static/media/9.1 profile.06c30927.png": "/static/media/9.1 profile.06c30927.png",
+    "static/media/sosyaltema.66ff1c36.png": "/static/media/sosyaltema.66ff1c36.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.4e6b04cc.js",
+    "static/js/2.a1bea137.chunk.js",
+    "static/css/main.19c2a8fe.chunk.css",
+    "static/js/main.08d61b85.chunk.js"
+  ]
+}
